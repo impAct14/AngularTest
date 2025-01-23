@@ -1,0 +1,211 @@
+<div class="row mt-2">
+  <div [class]="isSidePanelOpen() ? 'col-8' : 'col-12'">
+    <div class="card">
+      <div class="card-header bg-secondary">
+        <div class="row">
+          <div class="col-6 text-white"><strong>Employee Portal</strong></div>
+          <div class="col-6 text-end">
+            <button class="btn btn-warning" (click)="addNewEmployee()">
+              Add New
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Contact</th>
+              <th scope="col">Email</th>
+              <th scope="col">Department</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of employeeList; track $index) {
+            <tr>
+              <td>{{ $index + 1 }}</td>
+              <td>{{ item.employeeName }}</td>
+              <td>{{ item.contactNo }}</td>
+              <td>{{ item.emailId }}</td>
+              <td>{{ item.deptId }}</td>
+              <td>
+                <button
+                  class="btn btn-primary btn-sm"
+                  style="margin-right: 5px"
+                  (click)="onEdit(item)"
+                >
+                  Edit
+                </button>
+                <button
+                  class="btn btn-danger btn-sm"
+                  (click)="onDelete(item.employeeId)"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add new Employee -->
+  @if (isSidePanelOpen()) {
+  <div class="col-4">
+    <div class="card">
+      <div class="card-header bg-secondary">
+        <div class="row">
+          <div class="col-6 text-white"><strong>New Employee</strong></div>
+          <div class="col-6 text-end">
+            <button class="btn btn-primary" (click)="onCloseAddNewEmployee()">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <form novalidate="" class="mb-4 ng-untouched ng-pristine ng-valid">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="employeeName" class="form-label">Employee Name</label
+              ><input
+                type="text"
+                name="employeeName"
+                [(ngModel)]="employees.employeeName"
+                id="employeeName"
+                placeholder="Enter name"
+                class="form-control ng-untouched ng-pristine ng-valid"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="contactNo" class="form-label">Contact No</label
+              ><input
+                type="text"
+                name="contactNo"
+                [(ngModel)]="employees.contactNo"
+                id="contactNo"
+                placeholder="Enter contactNo"
+                class="form-control ng-untouched ng-pristine ng-valid"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="emailId" class="form-label">Email</label
+              ><input
+                type="email"
+                name="emailId"
+                [(ngModel)]="employees.emailId"
+                id="emailId"
+                placeholder="Enter email"
+                class="form-control ng-untouched ng-pristine ng-valid"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="deptId" class="form-label">Parent Department</label
+              ><select
+                id="deptId"
+                class="form-select ng-untouched ng-pristine ng-valid"
+                [(ngModel)]="deptId"
+                name="deptId"
+                (change)="onDeptChange()"
+                style="
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                "
+              >
+                <option selected>Select department</option>
+                @for (item of parentDeptList; track $index) {
+                <option [value]="item.departmentId">
+                  {{ item.departmentName }}
+                </option>
+                }
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="deptId" class="form-label">Child Department</label
+              ><select
+                [(ngModel)]="employees.deptId"
+                id="deptId"
+                name="deptId"
+                class="form-select ng-untouched ng-pristine ng-valid"
+                style="
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                "
+              >
+                <option selected="">Select department</option>
+                @for (item of childDeptList; track $index) {
+                <option [value]="item.childDeptId">
+                  {{ item.departmentName }}
+                </option>
+                }
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="password" class="form-label">Password</label
+              ><input
+                type="password"
+                name="password"
+                [(ngModel)]="employees.password"
+                id="password"
+                placeholder="Enter password"
+                class="form-control ng-untouched ng-pristine ng-valid"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div>Select Gender</div>
+              <input
+                type="radio"
+                value="Male"
+                name="gender"
+                [(ngModel)]="employees.gender"
+                class="ng-untouched ng-pristine ng-valid"
+              />
+              Male
+              <input
+                type="radio"
+                value="Female"
+                name="gender"
+                [(ngModel)]="employees.gender"
+                class="ng-untouched ng-pristine ng-valid"
+              />
+              Female
+            </div>
+          </div>
+          @if (employees.employeeId == 0) {
+          <button
+            type="button"
+            class="btn btn-warning mt-3"
+            (click)="onSaveEmployee()"
+          >
+            Submit
+          </button>
+          } @else {
+          <button
+            type="button"
+            class="btn btn-primary mt-3"
+            (click)="onUpdateEmployee()"
+          >
+            Update
+          </button>
+          }
+        </form>
+      </div>
+    </div>
+  </div>
+  }
+</div>
