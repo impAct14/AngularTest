@@ -7,33 +7,26 @@ import { Employee, IApiResponse } from '../model/employee';
   providedIn: 'root',
 })
 export class EmployeeService {
+  apiUrl: string = 'https://projectapi.gerasim.in/api/EmployeeManagement/';
+
   constructor(private http: HttpClient) {}
 
   getAllEmployees() {
-    return this.http.get<Employee[]>(
-      'https://projectapi.gerasim.in/api/EmployeeManagement/GetAllEmployees'
-    );
+    return this.http.get<Employee[]>(`${this.apiUrl}GetAllEmployees`);
   }
 
   createNewEmployee(obj: Employee) {
-    return this.http.post<Employee>(
-      'https://projectapi.gerasim.in/api/EmployeeManagement/CreateEmployee',
-      obj
-    );
+    return this.http.post<Employee>(`${this.apiUrl}CreateEmployee`, obj);
   }
 
   updateEmployee(obj: Employee) {
     return this.http.put<Employee>(
-      'https://projectapi.gerasim.in/api/EmployeeManagement/UpdateEmployee/' +
-        obj.employeeId,
+      `${this.apiUrl}UpdateEmployee` + obj.employeeId,
       obj
     );
   }
 
   deteleEmployeeById(id: number) {
-    return this.http.delete<Employee>(
-      'https://projectapi.gerasim.in/api/EmployeeManagement/DeleteEmployee/' +
-        id
-    );
+    return this.http.delete<Employee>(`${this.apiUrl}DeleteEmployee` + id);
   }
 }

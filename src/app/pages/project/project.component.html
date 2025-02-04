@@ -1,3 +1,268 @@
-<p>
-  project works!
-</p>
+<div class="row mt-2">
+  <!-- Project List -->
+  @if ( currentView == "List") {
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header bg-success">
+        <div class="row">
+          <div class="col-6 text-white"><strong>Project List</strong></div>
+          <div class="col-6 text-end">
+            <button class="btn btn-primary" (click)="currentView = 'Create'">
+              Create New Project
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Project ID</th>
+              <th>Project Name</th>
+              <th>Client Name</th>
+              <th>Start Date</th>
+              <th>Lead By Employee</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (projectItem of projectList; track $index) {
+
+            <tr>
+              <td>{{ $index + 1 }}</td>
+              <td>{{ projectItem.projectName }}</td>
+              <td>{{ projectItem.clientName }}</td>
+              <td>{{ projectItem.startDate | date : "dd-MM-yyyy" }}</td>
+              <td>{{ projectItem.employeeName }}</td>
+              <td>
+                <button class="btn btn-primary" (click)="onEdit(projectItem)">
+                  Edit
+                </button>
+                <button
+                  class="btn btn-success mx-2"
+                  (click)="onViewEmployees(projectItem.projectId)"
+                >
+                  Employees
+                </button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  } @else {
+  <!-- Project add -->
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header bg-success">
+        <div class="row">
+          <div class="col-6 text-white"><strong>New Project </strong></div>
+          <div class="col-6 text-end">
+            <button class="btn btn-primary" (click)="currentView = 'List'">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <form
+          novalidate=""
+          class="mb-4 ng-untouched ng-pristine ng-valid"
+          [formGroup]="projectForm"
+          (ngSubmit)="onSaveProject()"
+        >
+          <div class="row">
+            <div class="col-md-6">
+              <label for="projectName" class="form-label">Project Name</label
+              ><input
+                type="text"
+                formControlName="projectName"
+                id="projectName"
+                placeholder="Enter project name"
+                class="form-control ng-untouched ng-pristine ng-valid"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="clientName" class="form-label">Client Name</label
+              ><input
+                type="text"
+                formControlName="clientName"
+                id="clientName"
+                placeholder="Enter client name"
+                class="form-control ng-untouched ng-pristine ng-valid"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="startDate" class="form-label">Start Date</label
+              ><input
+                type="date"
+                formControlName="startDate"
+                id="startDate"
+                class="form-control ng-untouched ng-pristine ng-valid"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="leadByEmpId" class="form-label"
+                >Lead By Employee ID</label
+              ><select
+                formControlName="leadByEmpId"
+                class="form-select ng-untouched ng-pristine ng-valid"
+              >
+                <option value="">Select Employee</option>
+                <option
+                  *ngFor="let employee of employeeData$ | async"
+                  [value]="employee.employeeId"
+                >
+                  {{ employee.employeeName }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="contactPerson" class="form-label"
+                >Contact Person</label
+              ><input
+                type="text"
+                formControlName="contactPerson"
+                id="contactPerson"
+                placeholder="Enter contact person name"
+                class="form-control ng-untouched ng-pristine ng-valid"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="contactNoProject" class="form-label">Contact No</label
+              ><input
+                type="text"
+                formControlName="contactNo"
+                id="contactNoProject"
+                placeholder="Enter contact number"
+                class="form-control ng-untouched ng-pristine ng-valid"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="contactNoProject" class="form-label">EmailId</label
+              ><input
+                type="text"
+                formControlName="emailId"
+                id="contactNoProject"
+                placeholder="Enter contact number"
+                class="form-control ng-untouched ng-pristine ng-valid"
+              />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Modal -->
+  <div class="modal" style="display: none" #MyModal>
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Project Employees</h4>
+          <button
+            type="button"
+            data-bs-dismiss="modal"
+            class="btn-close"
+            (click)="closeModal()"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-3">
+              <select
+                name=""
+                id=""
+                placeholder="Select Employee"
+                class="form-select ng-valid ng-dirty ng-touched"
+                [(ngModel)]="projectEmployee.empId"
+              >
+                <option
+                  *ngFor="let employee of employeeData$ | async"
+                  [value]="employee.employeeId"
+                >
+                  {{ employee.employeeName }}
+                </option>
+              </select>
+            </div>
+            <div class="col-3">
+              <input
+                type="text"
+                placeholder="Role"
+                class="form-control ng-pristine ng-valid ng-touched"
+                [(ngModel)]="projectEmployee.role"
+              />
+            </div>
+            <div class="col-3">
+              <input
+                type="date"
+                class="form-control ng-pristine ng-valid ng-touched"
+                [(ngModel)]="projectEmployee.assignedDate"
+              />
+            </div>
+            <div class="col-3">
+              <input
+                type="button"
+                value="Add"
+                class="btn btn-primary"
+                (click)="onAddEmp()"
+              />
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Project Name</th>
+                    <th>Employee Name</th>
+                    <th>Status</th>
+                    <th>Role</th>
+                    <th>Assigned Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @if (projectEmployeeList.length == 0) {
+                  <ng-container>
+                    <tr>
+                      <td colspan="5" class="text-center">
+                        No Employees Found
+                      </td>
+                    </tr>
+                  </ng-container>
+                  } @else { @for (projectEmp of projectEmployeeList; track
+                  $index) {
+                  <ng-container>
+                    <tr>
+                      <td>{{ projectEmp.projectName }}</td>
+                      <td>{{ projectEmp.employeeName }}</td>
+                      <td>{{ projectEmp.isActive }}</td>
+                      <td>{{ projectEmp.role }}</td>
+                      <td>
+                        {{ projectEmp.assignedDate | date : "dd-MM-yyyy" }}
+                      </td>
+                    </tr>
+                  </ng-container>
+                  } }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="closeModal()">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
