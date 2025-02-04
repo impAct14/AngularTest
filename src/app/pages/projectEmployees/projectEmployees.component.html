@@ -1,3 +1,51 @@
-<p>
-  projectEmployees works!
-</p>
+<div class="row mt-2">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="background-color: blanchedalmond">
+        <div class="row">
+          <div class="col-6 text-black"><strong>Project Employees</strong></div>
+          <div class="col-6 text-end">
+            <button class="btn btn-primary">Create</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <th style="display: flex; justify-content: center">Id</th>
+            <th>Project Name</th>
+            <th>Employee Name</th>
+            <th>Status</th>
+            <th>Role</th>
+            <th>Assigned Date</th>
+            <th style="display: flex; justify-content: center">Actions</th>
+          </thead>
+          <tbody>
+            @for (item of projectEmployeeList; track $index) {
+            <tr>
+              <td style="display: flex; justify-content: center">
+                {{ $index + 1 }}
+              </td>
+              <td>{{ item.projectName }}</td>
+              <td>{{ item.employeeName }}</td>
+              <td>{{ item.isActive }}</td>
+              <td>{{ item.role }}</td>
+              <td>{{ item.assignedDate | date : "dd-MM-yyyy" }}</td>
+              <td style="display: flex; justify-content: center">
+                <button class="btn btn-primary" (click)="onEdit()">Edit</button>
+                <button
+                  class="btn btn-danger"
+                  style="margin-left: 5px"
+                  (click)="onDelete()"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
