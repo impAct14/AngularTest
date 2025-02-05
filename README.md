@@ -1,3 +1,5 @@
+# Right now the swagger API is error so can't use any function in the project.
+
 # AngularTest
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.5.
