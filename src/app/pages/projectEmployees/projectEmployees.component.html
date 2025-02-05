@@ -1,12 +1,12 @@
 <div class="row mt-2">
+  @if ( currentView == "List" ) {
+  <!-- Project Employee List -->
+
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="background-color: blanchedalmond">
         <div class="row">
           <div class="col-6 text-black"><strong>Project Employees</strong></div>
-          <div class="col-6 text-end">
-            <button class="btn btn-primary">Create</button>
-          </div>
         </div>
       </div>
       <div class="card-body">
@@ -36,7 +36,7 @@
                 <button
                   class="btn btn-danger"
                   style="margin-left: 5px"
-                  (click)="onDelete()"
+                  (click)="onDelete(item.empProjectId)"
                 >
                   Delete
                 </button>
@@ -48,4 +48,18 @@
       </div>
     </div>
   </div>
+  } @else {
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="background-color: blanchedalmond">
+        <div class="row">
+          <div class="col-6 text-black">
+            <strong>Project Employees Edit</strong>
+          </div>
+        </div>
+      </div>
+      <div class="card-body"></div>
+    </div>
+  </div>
+  }
 </div>

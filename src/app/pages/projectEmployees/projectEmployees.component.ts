@@ -16,6 +16,8 @@ export class ProjectEmployeesComponent implements OnInit {
 
   projectEmployeeService = inject(ProjectEmployeeService);
 
+  currentView = 'List';
+
   constructor() {}
 
   ngOnInit() {
@@ -32,5 +34,18 @@ export class ProjectEmployeesComponent implements OnInit {
 
   onEdit() {}
 
-  onDelete() {}
+  onDelete(id: number) {
+    const result = confirm('Are you sure you want to delete this Employee?');
+    if (result) {
+      this.projectEmployeeService.deleteProjectEmployeeById(id).subscribe(
+        (res: ProjectEmployee) => {
+          alert('Delete Project Employee Successfully');
+          this.getAllProjectEmployees();
+        },
+        (err) => {
+          alert('Delete Project Employee Failed');
+        }
+      );
+    }
+  }
 }

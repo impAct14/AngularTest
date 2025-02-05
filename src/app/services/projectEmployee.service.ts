@@ -28,4 +28,10 @@ export class ProjectEmployeeService {
       obj
     );
   }
+
+  deleteProjectEmployeeById(id: number) {
+    return this.http.delete<ProjectEmployee>(
+      `${this.apiUrl}DeleteProjectEmployee/` + id
+    );
+  }
 }

@@ -109,12 +109,14 @@ export class ProjectComponent implements OnInit {
     this.projectEmployee.projectId = id;
     if (this.employeeModal) {
       this.employeeModal.nativeElement.style.display = 'block';
+      document.body.classList.add('blur-background');
     }
   }
 
   closeModal() {
     if (this.employeeModal) {
       this.employeeModal.nativeElement.style.display = 'none';
+      document.body.classList.remove('blur-background');
     }
   }
 
