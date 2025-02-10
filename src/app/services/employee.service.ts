@@ -16,17 +16,17 @@ export class EmployeeService {
   }
 
   createNewEmployee(obj: Employee) {
-    return this.http.post<Employee>(`${this.apiUrl}CreateEmployee`, obj);
+    return this.http.post<Employee>(`${this.apiUrl}CreateEmployee/`, obj);
   }
 
   updateEmployee(obj: Employee) {
     return this.http.put<Employee>(
-      `${this.apiUrl}UpdateEmployee` + obj.employeeId,
+      `${this.apiUrl}UpdateEmployee/` + obj.employeeId,
       obj
     );
   }
 
   deteleEmployeeById(id: number) {
-    return this.http.delete<Employee>(`${this.apiUrl}DeleteEmployee` + id);
+    return this.http.delete<Employee>(`${this.apiUrl}DeleteEmployee/` + id);
   }
 }

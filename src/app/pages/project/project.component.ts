@@ -19,15 +19,30 @@ import { EmployeeService } from '../../services/employee.service';
 import { AsyncPipe, DatePipe, NgFor } from '@angular/common';
 import { ProjectService } from '../../services/project.service';
 import { ProjectEmployeeService } from '../../services/projectEmployee.service';
+import { MyTableComponent } from '../../shared/components/my-table/my-table.component';
 
 @Component({
   selector: 'app-project',
-  imports: [FormsModule, ReactiveFormsModule, NgFor, AsyncPipe, DatePipe],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgFor,
+    AsyncPipe,
+    DatePipe,
+    MyTableComponent,
+  ],
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.css'],
 })
 export class ProjectComponent implements OnInit {
   @ViewChild('MyModal') employeeModal: ElementRef | undefined;
+
+  columnList: string[] = [
+    'projectName',
+    'clientName',
+    'startDate',
+    'employeeName',
+  ];
 
   currentView: string = 'List';
 
@@ -142,5 +157,20 @@ export class ProjectComponent implements OnInit {
         this.getAllProjectEmployee(this.projectEmployee.projectId);
       }
     );
+  }
+
+  onDelete(data: any) {
+    const result = confirm('Are you sure you want to delete this Employee?');
+    if (result) {
+      this.projectService.deleteProjectById(data.projectId).subscribe(
+        (res: IProject) => {
+          alert('Delete Project Employee Successfully');
+          this.getAllProjects();
+        },
+        (err) => {
+          alert('Delete Project Employee Failed');
+        }
+      );
+    }
   }
 }

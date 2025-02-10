@@ -10,7 +10,13 @@
         </div>
       </div>
       <div class="card-body">
-        <table class="table table-bordered">
+        <app-my-table
+          [columnArray]="columnList"
+          [gridData]="projectEmployeeList"
+          (onEditClicked)="onEdit()"
+          (onDeleteClicked)="onDelete($event)"
+        ></app-my-table>
+        <!-- <table class="table table-bordered">
           <thead>
             <th style="display: flex; justify-content: center">Id</th>
             <th>Project Name</th>
@@ -44,7 +50,7 @@
             </tr>
             }
           </tbody>
-        </table>
+        </table> -->
       </div>
     </div>
   </div>

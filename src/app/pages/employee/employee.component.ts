@@ -8,14 +8,16 @@ import {
 import { MasterService } from '../../services/master.service';
 import { FormsModule } from '@angular/forms';
 import { EmployeeService } from '../../services/employee.service';
+import { MyTableComponent } from '../../shared/components/my-table/my-table.component';
 
 @Component({
   selector: 'app-employee',
-  imports: [FormsModule],
+  imports: [FormsModule, MyTableComponent],
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css'],
 })
 export class EmployeeComponent implements OnInit {
+  columnList: string[] = ['employeeName', 'contactNo', 'emailId', 'deptId'];
   parentDeptList: IParentDept[] = [];
   childDeptList: IChildDept[] = [];
   deptId: number = 0;
@@ -56,6 +58,7 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.createNewEmployee(this.employees).subscribe(
       (res: Employee) => {
         alert('Create Employee Successfully');
+        this.getEmployees();
       },
       (err) => {
         alert('Create Employee Failed');
@@ -72,6 +75,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   onEdit(obj: Employee) {
+    this.isSidePanelOpen.set(true);
     this.employees = obj;
   }
 
@@ -87,10 +91,10 @@ export class EmployeeComponent implements OnInit {
     );
   }
 
-  onDelete(id: number) {
+  onDelete(data: any) {
     const result = confirm('Are you sure you want to delete this Employee?');
     if (result) {
-      this.employeeService.deteleEmployeeById(id).subscribe(
+      this.employeeService.deteleEmployeeById(data.employeeId).subscribe(
         (res: Employee) => {
           alert('Delete Employee Successfully');
           this.getEmployees();
