@@ -9,6 +9,7 @@ import { MasterService } from '../../services/master.service';
 import { FormsModule } from '@angular/forms';
 import { EmployeeService } from '../../services/employee.service';
 import { MyTableComponent } from '../../shared/components/my-table/my-table.component';
+import { CommonTableColumn, TableColumnType } from '../../model/commonTable';
 
 @Component({
   selector: 'app-employee',
@@ -17,7 +18,12 @@ import { MyTableComponent } from '../../shared/components/my-table/my-table.comp
   styleUrls: ['./employee.component.css'],
 })
 export class EmployeeComponent implements OnInit {
-  columnList: string[] = ['employeeName', 'contactNo', 'emailId', 'deptId'];
+  columnList: CommonTableColumn[] = [
+    { fieldId: 'employeeName', headerName: 'Employee Name', dataType: TableColumnType.TEXT },
+    { fieldId: 'contactNo', headerName: 'Contact No', dataType: TableColumnType.NUMBER },
+    { fieldId: 'emailId', headerName: 'Email', dataType: TableColumnType.TEXT },
+    { fieldId: 'deptId', headerName: 'Department', dataType: TableColumnType.TEXT },
+  ];
   parentDeptList: IParentDept[] = [];
   childDeptList: IChildDept[] = [];
   deptId: number = 0;

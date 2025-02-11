@@ -16,41 +16,6 @@
           (onEditClicked)="onEdit()"
           (onDeleteClicked)="onDelete($event)"
         ></app-my-table>
-        <!-- <table class="table table-bordered">
-          <thead>
-            <th style="display: flex; justify-content: center">Id</th>
-            <th>Project Name</th>
-            <th>Employee Name</th>
-            <th>Status</th>
-            <th>Role</th>
-            <th>Assigned Date</th>
-            <th style="display: flex; justify-content: center">Actions</th>
-          </thead>
-          <tbody>
-            @for (item of projectEmployeeList; track $index) {
-            <tr>
-              <td style="display: flex; justify-content: center">
-                {{ $index + 1 }}
-              </td>
-              <td>{{ item.projectName }}</td>
-              <td>{{ item.employeeName }}</td>
-              <td>{{ item.isActive }}</td>
-              <td>{{ item.role }}</td>
-              <td>{{ item.assignedDate | date : "dd-MM-yyyy" }}</td>
-              <td style="display: flex; justify-content: center">
-                <button class="btn btn-primary" (click)="onEdit()">Edit</button>
-                <button
-                  class="btn btn-danger"
-                  style="margin-left: 5px"
-                  (click)="onDelete(item.empProjectId)"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table> -->
       </div>
     </div>
   </div>

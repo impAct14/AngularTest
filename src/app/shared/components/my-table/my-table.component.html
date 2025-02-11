@@ -3,7 +3,7 @@
     <tr>
       <th style="display: flex; justify-content: center">Id</th>
       @for (item of columnArray; track $index) {
-      <th>{{ item }}</th>
+      <th>{{ item.headerName }}</th>
       }
       <th style="display: flex; justify-content: center">Actions</th>
     </tr>
@@ -13,7 +13,11 @@
     <tr>
       <td style="display: flex; justify-content: center">{{ $index + 1 }}</td>
       @for (columnName of columnArray; track $index) {
-      <td>{{ item[columnName] }}</td>
+        @if (columnName.dataType == 'date') {
+      <td>{{ item[columnName.fieldId] | date: columnName.format || 'dd-MM-yyyy' }}</td>
+        } @else {
+      <td>{{ item[columnName.fieldId] }}</td>
+        }
       }
       <td style="display: flex; justify-content: center">
         <button class="btn btn-primary btn-sm" (click)="onEditClick(item)">

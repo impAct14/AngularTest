@@ -20,6 +20,7 @@ import { AsyncPipe, DatePipe, NgFor } from '@angular/common';
 import { ProjectService } from '../../services/project.service';
 import { ProjectEmployeeService } from '../../services/projectEmployee.service';
 import { MyTableComponent } from '../../shared/components/my-table/my-table.component';
+import { CommonTableColumn, TableColumnType } from '../../model/commonTable';
 
 @Component({
   selector: 'app-project',
@@ -37,11 +38,11 @@ import { MyTableComponent } from '../../shared/components/my-table/my-table.comp
 export class ProjectComponent implements OnInit {
   @ViewChild('MyModal') employeeModal: ElementRef | undefined;
 
-  columnList: string[] = [
-    'projectName',
-    'clientName',
-    'startDate',
-    'employeeName',
+  columnList: CommonTableColumn[] = [
+    { fieldId: 'projectName', headerName: 'Project', dataType: TableColumnType.TEXT },
+    { fieldId: 'clientName', headerName: 'Client', dataType: TableColumnType.TEXT },
+    { fieldId: 'startDate', headerName: 'Start Date', dataType: TableColumnType.DATE, format: 'dd-MM-yyyy' },
+    { fieldId: 'employeeName', headerName: 'Employee Lead', dataType: TableColumnType.TEXT },
   ];
 
   currentView: string = 'List';
